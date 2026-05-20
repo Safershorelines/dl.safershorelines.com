@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Just Add Safety — Der offizielle Character & Prompt Guide v2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-darkest: #08403A;
+    --teal-dark: #0E736F;
+    --teal-mid: #3E8F8C;
+    --teal-light: #67B2AE;
+    --teal-lightest: #A4D1CE;
+    --teal-bg: #E8F2F1;
+    --sand: #E5DCC5;
+    --safety-eye: #45B5AA;
+    --safety-hair: #E8C872;
+    --safety-suit-chest: #40E0D0;
+    --safety-suit-arm: #008080;
+    --safety-cross: #1A4444;
+    --warn-red: #C0392B;
+    --success: #27AE60;
+    --paper: #FBFBF9;
+    --ink: #1A1A1A;
+    --grid: #E5E5E5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    color: var(--ink);
+    background: #555;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code, pre, .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  .page {
+    width: 297mm;
+    height: 210mm;
+    background: var(--paper);
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    margin: 8mm auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* === GENERIC === */
+  .page-number {
+    position: absolute;
+    bottom: 8mm;
+    right: 12mm;
+    font-size: 9pt;
+    color: var(--teal-dark);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .page-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 12mm;
+    font-size: 9pt;
+    color: #888;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6mm;
+    background: linear-gradient(90deg,
+      var(--teal-darkest) 0%, var(--teal-darkest) 20%,
+      var(--teal-dark) 20%, var(--teal-dark) 40%,
+      var(--teal-mid) 40%, var(--teal-mid) 60%,
+      var(--teal-light) 60%, var(--teal-light) 80%,
+      var(--teal-lightest) 80%, var(--teal-lightest) 100%);
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 8mm 8mm;
+    opacity: 0.4;
+    z-index: 0;
+  }
+
+  h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; color: var(--teal-darkest); }
+  h1 { font-size: 48pt; line-height: 1.05; }
+  h2 { font-size: 28pt; line-height: 1.1; margin-bottom: 4mm; }
+  h3 { font-size: 14pt; line-height: 1.2; margin-bottom: 2mm; }
+  p { font-size: 11pt; line-height: 1.5; }
+  small { font-size: 8pt; color: #666; }
+
+  a { color: var(--teal-dark); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--teal-darkest); }
+
+  /* === COVER === */
+  .cover {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+  }
+  .cover-left { padding: 0 0 0 24mm; position: relative; z-index: 2; }
+  .cover-meta {
+    border: 1px solid var(--ink);
+    padding: 3mm 5mm;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    display: inline-block;
+    margin-bottom: 12mm;
+    letter-spacing: 0.06em;
+  }
+  .cover h1 {
+    font-size: 66pt; line-height: 0.95;
+    color: var(--teal-darkest);
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.95);
+  }
+  .cover-sub {
+    font-size: 22pt; margin-top: 6mm; line-height: 1.15; font-weight: 400;
+    color: var(--teal-darkest);
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.9);
+  }
+  .cover-right { position: relative; height: 100%; }
+  .cover-right img { position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: 92%; object-fit: contain; object-position: right center; }
+  .cover-logo {
+    position: absolute;
+    bottom: 18mm;
+    right: 24mm;
+    width: 32mm;
+  }
+  .cover-corners {
+    position: absolute;
+    inset: 12mm;
+    pointer-events: none;
+  }
+  .corner {
+    position: absolute;
+    width: 8mm;
+    height: 8mm;
+    border: 1.5px solid var(--ink);
+  }
+  .corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+  .corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+  .corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+  .corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+  /* === SECTION TITLE BAR === */
+  .section-bar {
+    position: absolute;
+    top: 14mm;
+    left: 12mm;
+    font-size: 9pt;
+    color: var(--teal-dark);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* === INHALT === */
+  .toc { padding: 28mm 24mm 20mm 24mm; }
+  .toc h2 { font-size: 34pt; }
+  .toc ol { margin-top: 10mm; list-style: none; counter-reset: toc-counter; columns: 2; column-gap: 16mm; }
+  .toc li {
+    counter-increment: toc-counter;
+    font-size: 12pt;
+    padding: 3mm 0;
+    border-bottom: 1px dotted #BBB;
+    display: flex;
+    justify-content: space-between;
+    break-inside: avoid;
+  }
+  .toc li::before {
+    content: counter(toc-counter, decimal-leading-zero) " ";
+    color: var(--teal-light);
+    margin-right: 6mm;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10pt;
+  }
+  .toc li span:last-child { color: var(--teal-dark); font-weight: 500; font-family: 'JetBrains Mono', monospace; }
+
+  /* === MANIFEST === */
+  .manifest { display: grid; grid-template-columns: 1.1fr 1fr; height: 100%; }
+  .manifest-img { position: relative; overflow: hidden; }
+  .manifest-img img { width: 100%; height: 100%; object-fit: cover; }
+  .manifest-text { padding: 22mm 18mm; display: flex; flex-direction: column; justify-content: center; }
+  .manifest-text h2 { font-size: 36pt; line-height: 1.1; color: var(--teal-darkest); font-weight: 700; }
+  .manifest-text h2 .quote { color: var(--teal-dark); }
+  .manifest-block { margin-top: 12mm; }
+  .manifest-block h3 { font-size: 14pt; color: var(--teal-darkest); margin-bottom: 2mm; }
+  .manifest-block p { font-size: 11pt; color: #333; margin-bottom: 8mm; max-width: 100mm; }
+
+  /* === IST / IST NICHT === */
+  .compare { padding: 22mm 18mm 18mm; }
+  .compare-head { display: flex; gap: 12mm; align-items: flex-end; margin-bottom: 8mm; }
+  .compare h2 { font-size: 30pt; }
+  .compare-table { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--teal-darkest); border-radius: 4mm; overflow: hidden; }
+  .compare-col { padding: 0; }
+  .compare-col-head {
+    padding: 5mm 8mm;
+    color: white;
+    font-weight: 700;
+    font-size: 14pt;
+    letter-spacing: 0.05em;
+  }
+  .compare-col-head.yes { background: var(--teal-dark); }
+  .compare-col-head.no { background: #666; }
+  .compare-row {
+    padding: 5mm 8mm;
+    border-top: 1px solid #DDD;
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    font-size: 11pt;
+    min-height: 22mm;
+  }
+  .icon-circle {
+    width: 8mm;
+    height: 8mm;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+  }
+  .icon-circle.ok { background: var(--teal-light); }
+  .icon-circle.no { background: #999; }
+
+  /* === DNA === */
+  .dna { padding: 18mm 16mm; }
+  .dna-anno-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+    margin-top: 4mm;
+  }
+  .anno-box { background: #F7F4ED; padding: 4mm 5mm; border-radius: 3mm; border-left: 3px solid var(--teal-dark); }
+  .anno-box h4 { font-size: 10.5pt; color: var(--teal-darkest); margin-bottom: 1.5mm; font-weight: 700; }
+  .anno-box p { font-size: 9pt; color: #333; line-height: 1.4; }
+  .anno-box .swatch {
+    display: inline-block;
+    width: 10mm;
+    height: 4mm;
+    border-radius: 1mm;
+    vertical-align: middle;
+    margin-left: 2mm;
+    border: 1px solid #CCC;
+  }
+  .dna-banner {
+    margin-top: 6mm;
+    width: 100%;
+    height: 88mm;
+    background: linear-gradient(180deg, var(--teal-bg) 0%, #FFFFFF 100%);
+    border-radius: 3mm;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dna-banner img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* === WETSUIT === */
+  .wetsuit-bg-img {
+    position: absolute;
+    top: 20mm;
+    left: 0;
+    right: 20mm;
+    bottom: 20mm;
+    width: auto;
+    height: calc(100% - 40mm);
+    object-fit: contain;
+    object-position: right center;
+    z-index: 0;
+  }
+  .wetsuit { position: relative; z-index: 1; padding: 24mm 18mm 24mm; height: 100%; }
+  .wetsuit h2 { max-width: 140mm; }
+  .wetsuit-lead { max-width: 130mm; font-size: 10pt; color: #555; margin: 2mm 0 6mm; }
+  .wetsuit-specs {
+    max-width: 115mm;
+    background: rgba(255,255,255,0.92);
+    padding: 5mm 7mm;
+    border-radius: 3mm;
+    border-left: 4px solid var(--teal-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .wetsuit-specs h3 { color: var(--teal-darkest); margin-top: 4mm; font-size: 12pt; }
+  .wetsuit-specs h3:first-child { margin-top: 0; }
+  .spec-row { display: flex; align-items: flex-start; gap: 3mm; margin: 2mm 0; }
+  .spec-swatch {
+    width: 9mm; height: 9mm; border-radius: 2mm;
+    flex-shrink: 0;
+    border: 1px solid #DDD;
+  }
+  .spec-text { font-size: 9.5pt; line-height: 1.35; }
+  .spec-text strong { color: var(--teal-darkest); }
+  .spec-text small { display: block; color: #777; font-family: 'JetBrains Mono', monospace; font-size: 8pt; }
+
+  /* === LOGO === */
+  .logo-page { padding: 22mm 18mm; }
+  .logo-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 12mm; align-items: center; height: calc(100% - 30mm); }
+  .logo-display {
+    background: linear-gradient(180deg, #FFFFFF 0%, var(--teal-bg) 100%);
+    border-radius: 4mm;
+    border: 1px solid #E0E0E0;
+    padding: 6mm;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    gap: 4mm;
+    align-items: center;
+    justify-items: center;
+  }
+  .logo-display .logo-block { text-align: center; }
+  .logo-display .logo-block img { max-width: 100%; max-height: 50mm; object-fit: contain; }
+  .logo-display .logo-block small { display: block; margin-top: 2mm; color: var(--teal-darkest); font-size: 8.5pt; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+  .logo-display .divider { width: 70%; height: 1px; background: var(--teal-lightest); }
+  .logo-anatomy h3 { margin-top: 4mm; }
+  .saer-banner {
+    background: var(--warn-red);
+    color: white;
+    padding: 3mm 6mm;
+    margin-bottom: 6mm;
+    border-radius: 2mm;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+  .saer-banner::before { content: "⚠  "; }
+
+  /* === SAER FIX === */
+  .saer-fix { padding: 22mm 18mm; }
+  .layer-stack { display: flex; flex-direction: column; gap: 4mm; margin-top: 8mm; }
+  .layer {
+    display: grid;
+    grid-template-columns: 14mm 1fr;
+    gap: 6mm;
+    align-items: center;
+    padding: 5mm 6mm;
+    border-radius: 3mm;
+    color: white;
+  }
+  .layer.l1 { background: var(--sand); color: var(--ink); }
+  .layer.l2 { background: var(--teal-lightest); color: var(--ink); }
+  .layer.l3 { background: var(--teal-light); }
+  .layer.l4 { background: var(--teal-dark); }
+  .layer-num { font-size: 24pt; font-weight: 800; text-align: center; }
+  .layer-content strong { display: block; font-size: 13pt; margin-bottom: 1mm; }
+  .layer-content p { font-size: 10pt; }
+
+  /* === TOOL MATRIX === */
+  .tools { padding: 22mm 16mm; }
+  table.matrix { width: 100%; border-collapse: collapse; margin-top: 6mm; font-size: 10pt; }
+  table.matrix th {
+    background: var(--teal-darkest);
+    color: white;
+    padding: 4mm 5mm;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9.5pt;
+    letter-spacing: 0.04em;
+  }
+  table.matrix td {
+    padding: 4mm 5mm;
+    border-bottom: 1px solid #DDD;
+    vertical-align: middle;
+  }
+  table.matrix tr:nth-child(even) td { background: var(--teal-bg); }
+  table.matrix .tool-name { font-weight: 700; color: var(--teal-darkest); }
+  .stars { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; color: var(--teal-darkest); }
+
+  /* === MASTER LOCK (Prompt blocks) === */
+  .master-lock { padding: 14mm 14mm 22mm; }
+  .lock-intro { margin-bottom: 4mm; max-width: 220mm; font-size: 9.5pt !important; }
+  .lock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .lock-card {
+    background: #F7F4ED;
+    border: 1px solid #DDD;
+    border-radius: 3mm;
+    padding: 3.5mm 4mm;
+    border-top: 4px solid var(--teal-dark);
+  }
+  .lock-card h3 { font-size: 11pt; margin-bottom: 2mm; color: var(--teal-darkest); }
+  .lock-card .badge { display: inline-block; background: var(--teal-dark); color: white; padding: 0.5mm 2mm; border-radius: 1mm; font-size: 7.5pt; font-family: 'JetBrains Mono', monospace; margin-left: 2mm; }
+  .lock-card pre { font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; line-height: 1.35; white-space: pre-wrap; word-break: break-word; color: #222; }
+  .lock-card .params { background: var(--teal-darkest); color: white; padding: 1.5mm 3mm; border-radius: 1mm; font-family: 'JetBrains Mono', monospace; font-size: 7.2pt; margin-top: 2mm; }
+
+  /* === PROMPT ANATOMY === */
+  .anatomy { padding: 22mm 18mm; }
+  .anatomy-stack { display: grid; gap: 4mm; margin-top: 8mm; }
+  .anatomy-row {
+    display: grid;
+    grid-template-columns: 36mm 1fr 60mm;
+    align-items: center;
+    gap: 6mm;
+  }
+  .anatomy-label {
+    background: var(--teal-darkest);
+    color: white;
+    padding: 3mm 5mm;
+    border-radius: 2mm;
+    font-weight: 700;
+    text-align: center;
+    font-size: 11pt;
+  }
+  .anatomy-label.flex { background: var(--teal-light); color: var(--teal-darkest); }
+  .anatomy-value { background: #F7F4ED; padding: 3mm 5mm; border-radius: 2mm; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; line-height: 1.4; border: 1px solid #DDD; }
+  .anatomy-hint { font-size: 9pt; color: #666; }
+  .anatomy-hint strong { color: var(--teal-darkest); }
+
+  /* === SPORT GRID === */
+  .sports { padding: 16mm 14mm 22mm; }
+  .sports-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; margin-top: 4mm; }
+  .sport-card {
+    background: white;
+    border: 1px solid #DDD;
+    border-radius: 3mm;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 72mm;
+  }
+  .sport-img { height: 42mm; overflow: hidden; background: var(--teal-bg); position: relative; }
+  .sport-hint {
+    margin-top: 6mm;
+    background: var(--teal-bg);
+    border-left: 3px solid var(--teal-dark);
+    border-radius: 0 2mm 2mm 0;
+    padding: 4mm 6mm;
+    font-size: 9.5pt;
+    color: #333;
+  }
+  .sport-hint strong { color: var(--teal-darkest); }
+  .sport-hint a { font-family: 'JetBrains Mono', monospace; font-size: 9pt; }
+  .sport-img img { width: 100%; height: 100%; object-fit: cover; }
+  .sport-img .num {
+    position: absolute;
+    top: 2mm; left: 2mm;
+    background: rgba(8, 64, 58, 0.85);
+    color: white;
+    padding: 1mm 2.5mm;
+    border-radius: 1mm;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+  }
+  .sport-card-body { padding: 3mm 4mm; flex: 1; display: flex; flex-direction: column; }
+  .sport-card h4 { font-size: 11pt; color: var(--teal-darkest); margin-bottom: 1mm; font-weight: 700; }
+  .sport-card .en { font-size: 8pt; color: #888; font-style: italic; margin-bottom: 2mm; }
+  .sport-card .snippet { font-family: 'JetBrains Mono', monospace; font-size: 7pt; line-height: 1.35; color: #333; flex: 1; }
+
+  /* === 10 RULES === */
+  .rules { padding: 22mm 18mm; }
+  .rules-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6mm; margin-top: 8mm; }
+  .rule-card { text-align: center; }
+  .rule-icon {
+    width: 30mm; height: 30mm;
+    margin: 0 auto 3mm;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rule-icon img { width: 100%; height: 100%; object-fit: contain; }
+  .rule-card h4 { font-size: 10pt; color: var(--teal-darkest); margin-bottom: 1mm; }
+  .rule-card p { font-size: 8.5pt; line-height: 1.35; color: #444; }
+
+  /* === MEDIATHEK === */
+  .gallery { padding: 18mm 14mm; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3mm; margin-top: 4mm; }
+  .gallery-tile { aspect-ratio: 4/3; border-radius: 2mm; overflow: hidden; background: var(--teal-bg); position: relative; }
+  .gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-tile .cap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: white;
+    padding: 4mm 2mm 1.5mm;
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .gallery-foot { margin-top: 6mm; padding-top: 4mm; border-top: 1px solid #DDD; font-size: 9.5pt; line-height: 1.5; }
+  .gallery-foot a { font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; }
+
+  /* === WORKFLOW === */
+  .workflow { padding: 22mm 18mm; }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr) ; gap: 0; margin-top: 10mm; align-items: stretch; }
+  .flow-step {
+    background: var(--teal-bg);
+    padding: 6mm 5mm;
+    position: relative;
+    border-right: none;
+    border-radius: 2mm 0 0 2mm;
+  }
+  .flow-step:last-child { border-radius: 2mm; background: var(--teal-darkest); color: white; }
+  .flow-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -6mm;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 6mm solid var(--teal-bg);
+    border-top: 12mm solid transparent;
+    border-bottom: 12mm solid transparent;
+    z-index: 2;
+  }
+  .flow-step:nth-child(4)::after { border-left-color: var(--teal-bg); }
+  .flow-step .num {
+    width: 8mm; height: 8mm;
+    border-radius: 50%;
+    background: var(--teal-darkest);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 11pt;
+    margin-bottom: 3mm;
+  }
+  .flow-step:last-child .num { background: white; color: var(--teal-darkest); }
+  .flow-step h4 { font-size: 11pt; margin-bottom: 2mm; }
+  .flow-step:last-child h4 { color: white; }
+  .flow-step p { font-size: 9pt; line-height: 1.4; }
+
+  /* === QA CHECKLIST === */
+  .qa-page { padding: 22mm 18mm; }
+  .qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 8mm; }
+  .qa-col { background: #F7F4ED; padding: 5mm 6mm; border-radius: 3mm; border-top: 4px solid var(--teal-dark); }
+  .qa-col h3 { color: var(--teal-darkest); font-size: 13pt; margin-bottom: 3mm; }
+  .qa-list { list-style: none; }
+  .qa-list li {
+    padding: 2mm 0 2mm 8mm;
+    border-bottom: 1px dotted #CCC;
+    font-size: 10pt;
+    position: relative;
+  }
+  .qa-list li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--teal-dark);
+    font-size: 12pt;
+  }
+  .qa-list li:last-child { border-bottom: none; }
+  .qa-list li strong { color: var(--teal-darkest); }
+
+  /* === SYNTHESE === */
+  .synthese { background: linear-gradient(135deg, var(--teal-darkest) 0%, var(--teal-dark) 100%); color: white; padding: 22mm 18mm; }
+  .synthese h2 { color: white; font-size: 32pt; }
+  .synthese-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8mm; margin-top: 12mm; align-items: stretch; }
+  .synthese-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 3mm;
+    padding: 6mm;
+    backdrop-filter: blur(10px);
+  }
+  .synthese-card h3 { color: var(--teal-lightest); font-size: 13pt; margin-bottom: 4mm; }
+  .synthese-card p { font-size: 10pt; line-height: 1.5; color: rgba(255,255,255,0.9); }
+  .synthese-final {
+    margin-top: 12mm;
+    padding: 6mm;
+    background: rgba(255,255,255,0.95);
+    color: var(--teal-darkest);
+    border-radius: 3mm;
+    text-align: center;
+    font-size: 14pt;
+    font-weight: 600;
+  }
+
+  /* === BACK COVER === */
+  .back { background: var(--paper); padding: 22mm 24mm; display: grid; grid-template-columns: 1.1fr 1fr; gap: 14mm; align-items: center; height: 100%; }
+  .back-left h2 { font-size: 30pt; color: var(--teal-darkest); margin-bottom: 8mm; }
+  .back-left p { font-size: 12pt; max-width: 110mm; margin-bottom: 6mm; }
+  .back-links { font-family: 'JetBrains Mono', monospace; font-size: 10pt; }
+  .back-links a { display: block; padding: 2mm 0; }
+  .back-tags { margin-top: 8mm; font-family: 'JetBrains Mono', monospace; color: var(--teal-dark); font-size: 10pt; }
+  .back-right { position: relative; }
+  .back-right img { width: 100%; max-height: 160mm; object-fit: contain; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- PAGE 1 — COVER                              -->
+<!-- ============================================ -->
+<section class="page cover">
+  <div class="cover-corners">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <div class="brand-stripe"></div>
+  <div class="cover-left">
+    <div class="cover-meta">
+      VERSION: 2.0 — 2026.05<br>
+      STATUS: FINAL &amp; VERBINDLICH<br>
+      TARGET: DESIGNER · WERBELEITER · KI-OPS
+    </div>
+    <h1>Just Add<br>Safety</h1>
+    <p class="cover-sub">Der offizielle<br>Character &amp; Prompt Guide.</p>
+  </div>
+  <div class="cover-right">
+    <img src="assets/Safety_Hero1.png" alt="Safety Hero">
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">01</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 2 — INHALT                             -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Inhalt</div>
+  <div class="toc">
+    <h2>Inhalt.</h2>
+    <p style="margin-top:3mm;font-size:11pt;color:#555;max-width:200mm">
+      Dieser Guide ist das verbindliche Arbeitsdokument für jeden, der Safety generiert,
+      einsetzt oder kommuniziert. Jede Seite ist ein abgeschlossenes Werkzeug — vom
+      Markenkern über die technische DNA bis zur kompletten Prompt-Bibliothek für
+      14 getestete Wassersportarten.
+    </p>
+    <ol>
+      <li><span>Cover</span><span>01</span></li>
+      <li><span>Inhalt</span><span>02</span></li>
+      <li><span>Manifest — die Haltung</span><span>03</span></li>
+      <li><span>Safety ist · Safety ist NICHT</span><span>04</span></li>
+      <li><span>Visuelle DNA — Hard Locks</span><span>05</span></li>
+      <li><span>Wetsuit — Anatomie &amp; Farben</span><span>06</span></li>
+      <li><span>Logo — Anatomie des Emblems</span><span>07</span></li>
+      <li><span>Das SAER-Problem &amp; der 4-Layer-Fix</span><span>08</span></li>
+      <li><span>Tool-Vergleichsmatrix</span><span>09</span></li>
+      <li><span>Master Character Lock (MJ · Ideogram · DALL-E · Genspark)</span><span>10</span></li>
+      <li><span>Anatomie des perfekten Prompts</span><span>11</span></li>
+      <li><span>Sport-Prompts 01–09</span><span>12</span></li>
+      <li><span>Sport-Prompts 10–18</span><span>13</span></li>
+      <li><span>Sport-Prompts 19–29</span><span>14</span></li>
+      <li><span>Die 10 universellen Wasser-Regeln</span><span>15</span></li>
+      <li><span>QA-Checkliste je Frame</span><span>16</span></li>
+      <li><span>End-to-End Workflow</span><span>17</span></li>
+      <li><span>Mediathek — freigegebene Bilder</span><span>18</span></li>
+      <li><span>Synthese — warum Disziplin Leben rettet</span><span>19</span></li>
+      <li><span>Kontakt &amp; Downloads</span><span>20</span></li>
+    </ol>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">02</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 3 — MANIFEST                           -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="manifest">
+    <div class="manifest-img">
+      <img src="assets/Safety_Swim1.png" alt="Safety mit Kind im Pool">
+    </div>
+    <div class="manifest-text">
+      <div class="section-bar" style="position:static;margin-bottom:6mm">Manifest</div>
+      <h2><span class="quote">„</span>Sicherheit darf nicht belehren,<br>sie muss <em>einladen</em>.<span class="quote">"</span></h2>
+      <div class="manifest-block" style="margin-top:14mm">
+        <h3>Safety</h3>
+        <p>Nicht nur unser Ziel — auch der Name unseres Avatars im Kampf für mehr Sicherheit am Wasser.</p>
+        <h3>Das Werkzeug</h3>
+        <p>Safety ist keine echte Person und kein statisches Logo, sondern ein dynamisches Werkzeug für jede Kampagne, jedes Partnerprojekt, jede Plattform.</p>
+        <h3>Das Ziel</h3>
+        <p>Beweisen, dass Sicherheit und die pure Freude am Wassersport untrennbar sind.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">03</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 4 — IST / IST NICHT                    -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Persönlichkeit</div>
+  <div class="compare">
+    <h2>Safety ist · Safety ist <em>nicht</em>.</h2>
+    <p style="margin-bottom:10mm;color:#555;max-width:200mm;font-size:11pt">
+      Die Persönlichkeit von Safety ist so wichtig wie ihr Aussehen. Jede Pose, jedes Lächeln,
+      jeder Bildausschnitt muss diesen Charakterkern transportieren — oder wird verworfen.
+    </p>
+    <div class="compare-table">
+      <div class="compare-col">
+        <div class="compare-col-head yes">Safety IST …</div>
+        <div class="compare-row"><span class="icon-circle ok">✓</span><span>Eine <strong>erfahrene Freundin am Wasser</strong> — nahbar, glaubwürdig, mit Hand und Auge für den Moment.</span></div>
+        <div class="compare-row"><span class="icon-circle ok">✓</span><span><strong>Kompetent, ruhig</strong> und <strong>aufmerksam</strong> — sie strahlt Kontrolle aus, ohne dominant zu wirken.</span></div>
+        <div class="compare-row"><span class="icon-circle ok">✓</span><span><strong>Positiv</strong> und <strong>motivierend</strong> in ihrer Körpersprache — ein Lächeln, kein erhobener Zeigefinger.</span></div>
+        <div class="compare-row"><span class="icon-circle ok">✓</span><span>Eine <strong>Einladung</strong> ans Wasser zu kommen — nicht eine Warnung davor.</span></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-col-head no">Safety ist NICHT …</div>
+        <div class="compare-row"><span class="icon-circle no">✗</span><span>Eine abgehobene <strong>Superheldin</strong> (keine Action-Posen, keine Capes, keine übermenschlichen Stunts).</span></div>
+        <div class="compare-row"><span class="icon-circle no">✗</span><span>Eine strenge <strong>Polizistin</strong> oder belehrende Autorität — nie mit erhobenem Finger, nie streng oder strafend.</span></div>
+        <div class="compare-row"><span class="icon-circle no">✗</span><span>Fehlerfrei-<strong>langweilig</strong> oder ängstlich-<strong>panisch</strong> — kein Stockfoto-Lächeln, kein Drama.</span></div>
+        <div class="compare-row"><span class="icon-circle no">✗</span><span><strong>Sexy</strong>, <strong>verführerisch</strong> oder im Model-Posing — ausschließlich athletisch, funktional, freundlich.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">04</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 5 — DNA / HARD LOCKS                   -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Visuelle DNA — Hard Locks</div>
+  <div class="dna">
+    <h2 style="margin-bottom:2mm">Visuelle DNA. <span style="color:var(--warn-red);font-size:14pt;vertical-align:middle">HARD LOCK — nicht verhandelbar.</span></h2>
+    <p style="font-size:10pt;color:#666;margin-bottom:2mm">Diese sechs Werte definieren Safety. Sie sind in jedem Bild, jedem Frame, jeder Animation identisch — egal welches Tool, welcher Sport, welche Saison.</p>
+    <div class="dna-anno-grid">
+      <div class="anno-box">
+        <h4>Alter &amp; Körperbau</h4>
+        <p>Exakt <strong>21 Jahre</strong>, weiblich, athletischer Schwimmer-Körperbau, ca. 170 cm.</p>
+      </div>
+      <div class="anno-box">
+        <h4>Augen <span class="swatch" style="background:#45B5AA"></span></h4>
+        <p>Blau-grün Aquamarin <code>#45B5AA</code>. Groß, mandelförmig, warm, ausdrucksstark.</p>
+      </div>
+      <div class="anno-box">
+        <h4>Stil</h4>
+        <p>Semi-realistischer 3D Pixar-Style (Moana / Luca / Encanto Qualität). NICHT fotorealistisch, KEINE Comic-Outlines.</p>
+      </div>
+      <div class="anno-box">
+        <h4>Haare <span class="swatch" style="background:#E8C872"></span></h4>
+        <p>Warmes Blond <code>#E8C872</code>, leicht wellig, lang bis zur Mitte des Rückens. <strong>IMMER Mittelscheitel</strong>.</p>
+      </div>
+      <div class="anno-box">
+        <h4>Teint</h4>
+        <p>Gesunder, leicht gebräunter <strong>mediterraner Sommerteint</strong> — kein Make-up-Look.</p>
+      </div>
+      <div class="anno-box">
+        <h4>Mund</h4>
+        <p>Geschlossenes, freundliches Lächeln — <strong>kein Grinsen</strong>, keine Zähne, kein offener Mund.</p>
+      </div>
+    </div>
+    <div class="dna-banner">
+      <img src="assets/Gemini_Generated_Image_r7atyur7atyur7at.png" alt="Safety Character Reference Sheet — alle Winkel">
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">05</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 6 — WETSUIT                            -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Outfit — Wetsuit</div>
+  <img class="wetsuit-bg-img" src="assets/Safety_freigestellt.png" alt="Safety im Wetsuit">
+  <div class="wetsuit">
+    <h2>Der Wetsuit.</h2>
+    <p class="wetsuit-lead">Standard-Outfit für jede Szene. In speziellen Fällen (Surfen, Sailing, Aquafit) durch sportartspezifische Kleidung in derselben Farbpalette ersetzbar — Wetsuit ist immer der sichere Default.</p>
+    <div class="wetsuit-specs">
+      <h3>Brust-Panel</h3>
+      <div class="spec-row">
+        <div class="spec-swatch" style="background:#40E0D0"></div>
+        <div class="spec-text"><strong>Leuchtendes Hell-Türkis</strong><small>#40E0D0 · dominante Fläche, Logo-Träger</small></div>
+      </div>
+      <h3>Ärmel &amp; Schultern</h3>
+      <div class="spec-row">
+        <div class="spec-swatch" style="background:#008080"></div>
+        <div class="spec-text"><strong>Dunkles Teal / Petrol</strong><small>#008080 · Seiten und Ärmel</small></div>
+      </div>
+      <h3>Material &amp; Schnitt</h3>
+      <div class="spec-row">
+        <div class="spec-swatch" style="background:#F7F4ED;border:1px solid #CCC"></div>
+        <div class="spec-text"><strong>Mattes Neopren</strong><small>Full-Body, hoher Kragen, sportlich eng. KEIN Glanz, Latex, Plastik-Look.</small></div>
+      </div>
+      <div style="background:#FFF3F0;border-left:3px solid var(--warn-red);padding:3mm 4mm;border-radius:0 2mm 2mm 0;margin-top:4mm">
+        <small style="color:var(--warn-red);font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Verboten</small>
+        <p style="font-size:9pt;margin-top:1mm">Glossy / Latex / Leder · sichtbare Nähte · Muster · Bikini · andere Farben als Türkis-Teal</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">06</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 7 — LOGO ANATOMIE                      -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Logo — Anatomie</div>
+  <div class="logo-page">
+    <h2>Logo-Anatomie.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:5mm">Das Logo ist der häufigste Fehlerpunkt bei KI-Generierung. Diese fünf Bestandteile sind <strong>verbindlich</strong>.</p>
+    <div class="logo-grid">
+      <div class="logo-display">
+        <div class="logo-block">
+          <img src="assets/logo_horizontal.png" alt="Safer Shorelines Volllogo horizontal">
+          <small>Volllogo · Kugel + Wortmarke</small>
+        </div>
+        <div class="divider"></div>
+        <div class="logo-block">
+          <img src="assets/logo_icon.png" alt="Safer Shorelines Kugel-Emblem">
+          <small>Kugel-Emblem · Stand-Alone</small>
+        </div>
+      </div>
+      <div class="logo-anatomy">
+        <div class="saer-banner">KRITISCH: S-A-<u>F</u>-E-R — fünf Buchstaben. NIEMALS „SAER".</div>
+        <div class="anno-box" style="margin-bottom:3mm">
+          <h4>1 · Strand (oberste 30%) <span class="swatch" style="background:#E5DCC5"></span></h4>
+          <p>Sand-beige <code>#E5DCC5</code>.</p>
+        </div>
+        <div class="anno-box" style="margin-bottom:3mm">
+          <h4>2 · Brandung <span class="swatch" style="background:#FFFFFF;border:1px solid #DDD"></span></h4>
+          <p>Weiße Schaumkrone <code>#FFFFFF</code>, trennt Sand und Wasser.</p>
+        </div>
+        <div class="anno-box" style="margin-bottom:3mm">
+          <h4>3 · Wellen <span class="swatch" style="background:linear-gradient(90deg,#A8C9C5,#2B6B6B)"></span></h4>
+          <p>Vier organisch geschwungene Kurven von Hell- zu Dunkel-Teal (<code>#A8C9C5 → #2B6B6B</code>). <strong>Niemals gerade Linien!</strong></p>
+        </div>
+        <div class="anno-box" style="margin-bottom:3mm">
+          <h4>4 · Medizinisches Kreuz <span class="swatch" style="background:#1A4444"></span></h4>
+          <p>Dunkles Teal <code>#1A4444</code>, platziert <strong>unten rechts</strong>, ragt leicht über den Kreisrand hinaus.</p>
+        </div>
+        <div class="anno-box">
+          <h4>5 · Typografie</h4>
+          <p><strong>S-A-F-E-R SHORELINES</strong>, modern, bold, geometrisch sans-serif. Das <strong>F</strong> ist kritisch — KI-Generatoren verschlucken es in 67% der Fälle.</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:5mm;font-size:9pt;color:#555">Download Logo PNG transparent:
+      <a href="assets/Safer Shorelines Logo only no backgr-1.png">Vollogo</a> ·
+      <a href="assets/Logo_Kugel_transparent.png">Kugel-Emblem</a>
+    </p>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">07</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 8 — SAER FIX                           -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">SAER-Problem — 4-Layer-Fix</div>
+  <div class="saer-fix">
+    <h2>Das SAER-Problem — und wie wir es lösen.</h2>
+    <p style="font-size:11pt;color:#444;max-width:200mm;margin-bottom:6mm">KI-Generatoren verschlucken in <strong>67% der Fälle</strong> das „F" und rendern „SAER" (4 Buchstaben) statt „SAFER" (5 Buchstaben). Die Lösung: vier kombinierte Layer.</p>
+    <div class="layer-stack">
+      <div class="layer l1">
+        <div class="layer-num">1</div>
+        <div class="layer-content">
+          <strong>Prompt — explizit buchstabieren</strong>
+          <p>Im Prompt steht immer: <em>"the text 'SAFER SHORELINES' (S-A-F-E-R has exactly five letters, the F appears between A and E, NEVER SAER)"</em>. Erhöht die Trefferquote um ~15%.</p>
+        </div>
+      </div>
+      <div class="layer l2">
+        <div class="layer-num">2</div>
+        <div class="layer-content">
+          <strong>Image-Reference — Logo-PNG als visuellen Anker</strong>
+          <p>Sauberes Logo-PNG als <code>--cref</code> (Midjourney) / Reference Image (Ideogram, Flux, Genspark) hochladen. Die KI hat dann eine visuelle Vorlage, nicht nur Text.</p>
+        </div>
+      </div>
+      <div class="layer l3">
+        <div class="layer-num">3</div>
+        <div class="layer-content">
+          <strong>Tool-Wahl — Ideogram für logo-kritische Bilder</strong>
+          <p>Ideogram v3 hat eine <strong>~90% Text-Erfolgsrate</strong>. Für Bilder, in denen das Logo groß und lesbar sein muss, immer Ideogram nehmen. Midjourney v7 nur für Hero-/Ästhetik-Shots.</p>
+        </div>
+      </div>
+      <div class="layer l4">
+        <div class="layer-num">4</div>
+        <div class="layer-content">
+          <strong>Post-Fix — Inpainting oder Logo-Overlay</strong>
+          <p>Im Notfall: Logo per nano-banana (Genspark, ein Call mit Logo-PNG als 2. Bild) korrekt überlagern, oder per Inpainting / Affinity / Canva nachträglich austauschen. <strong>Ein KI-Compositing-Call reicht — kein manuelles Klicken.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">08</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 9 — TOOL MATRIX                        -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Tool-Vergleichsmatrix</div>
+  <div class="tools">
+    <h2>Welches KI-Tool für was?</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:4mm">Stand 2026.05 — getestet auf SAFER-Logo-Treue, Pixar-Bildqualität, Prompt-Adhärenz und Animation. Konkrete Empfehlung pro Anwendungsfall in der letzten Spalte.</p>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th style="width:18%">Tool</th>
+          <th style="width:22%">Spezialität</th>
+          <th style="width:10%">Logo-Text</th>
+          <th style="width:10%">Bildqualität</th>
+          <th style="width:10%">Prompt-Treue</th>
+          <th style="width:10%">Video</th>
+          <th style="width:20%">Erste Wahl wenn …</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tool-name">Ideogram v3</td>
+          <td>Logo- &amp; Textgenauigkeit (~90% SAFER)</td>
+          <td class="stars">★★★★★</td>
+          <td class="stars">★★★☆☆</td>
+          <td class="stars">★★★☆☆</td>
+          <td class="stars">—</td>
+          <td>Logo muss <strong>groß &amp; lesbar</strong> sein.</td>
+        </tr>
+        <tr>
+          <td class="tool-name">Midjourney v7</td>
+          <td>Höchste Bild- &amp; Pixar-Qualität</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="stars">★★★★★</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">—</td>
+          <td>Hero-Shots, Portraits, ästhetische Looks.</td>
+        </tr>
+        <tr>
+          <td class="tool-name">DALL-E 3 / GPT-Image</td>
+          <td>Natürliches Sprachverständnis, komplexe Szenen</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★★</td>
+          <td class="stars">—</td>
+          <td>Hochspezifische Szenen mit Requisiten / Personen-Interaktion.</td>
+        </tr>
+        <tr>
+          <td class="tool-name">Genspark (nano-banana-pro)</td>
+          <td>Multi-Image-Eingang, Logo-Compositing</td>
+          <td class="stars">★★★★★</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">—</td>
+          <td>Logo auf bestehendes Safety-Bild aufbringen / Charakterbild ändern ohne Charakter zu verändern.</td>
+        </tr>
+        <tr>
+          <td class="tool-name">Kling v3</td>
+          <td>Image-to-Video, sehr stabile Motion</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★★</td>
+          <td>Animation aus freigegebenem Safety-Keyframe.</td>
+        </tr>
+        <tr>
+          <td class="tool-name">Veo 3 / Sora</td>
+          <td>Video-Generierung mit Referenzbild</td>
+          <td class="stars">★★☆☆☆</td>
+          <td class="stars">★★★★★</td>
+          <td class="stars">★★★★☆</td>
+          <td class="stars">★★★★★</td>
+          <td>Hochwertige Clips für Kampagnen (Sora erst nach Verifikation).</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:6mm;font-size:9pt;color:#555"><strong>Faustregel:</strong> Generieren mit Midjourney v7 oder DALL-E 3 für den Look · Logo-kritisch mit Ideogram v3 · Logo nachträglich fixen mit Genspark nano-banana · Animation mit Kling v3 oder Veo 3.</p>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">09</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 10 — MASTER CHARACTER LOCK             -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Master Character Lock</div>
+  <div class="master-lock">
+    <h2>Master Character Lock.</h2>
+    <p class="lock-intro" style="font-size:10pt;color:#666">Der wiederverwendbare Charakter-Block für jedes Tool. <strong>Kopieren, [SCENE]-Platzhalter ersetzen, generieren.</strong> Der Block enthält die komplette Hard-Lock-DNA — Tool-spezifische Anpassungen siehe pro Karte.</p>
+    <div class="lock-grid">
+      <div class="lock-card">
+        <h3>Midjourney v7 <span class="badge">Hero / Pixar Look</span></h3>
+<pre>Stylized 3D feature-film animation in the visual
+aesthetic of Disney Moana, Pixar Luca and Encanto.
+Safety: a 21-year-old athletic woman, swimmer's
+physique, warm sun-tanned skin, oval heart-shaped
+face, large almond aquamarine blue-green eyes
+(#45B5AA), long wavy warm golden-blonde hair with
+PERFECTLY SYMMETRICAL CENTER PART falling to mid-back,
+gentle closed-mouth smile.
+
+Full-body matte neoprene wetsuit: bright turquoise
+chest panel, dark teal sleeves &amp; sides, high collar,
+NO gloss. Centered circular emblem on chest with a
+darker cross-mark at bottom-right edge of the circle,
+partially extending past circle border.
+
+[SCENE]
+
+Golden-hour side light, cinematic composition,
+shallow DoF, 3D animated film still — Pixar render.</pre>
+        <div class="params">--ar 4:5 --style raw --s 750 --v 7 --cw 80 + Logo-PNG als --cref</div>
+      </div>
+      <div class="lock-card">
+        <h3>Ideogram v3 <span class="badge">Logo-Treue</span></h3>
+<pre>Semi-realistic 3D Pixar-style render (Moana / Luca
+quality), NOT cartoon, NOT photorealistic.
+
+21-year-old athletic female "Safety", center-part
+warm blonde hair (#E8C872), aquamarine eyes (#45B5AA),
+mediterranean tan, friendly closed-mouth smile.
+
+Full-body matte neoprene wetsuit: turquoise chest
+panel (#40E0D0), dark teal sleeves (#008080).
+Centered on her chest: the Safer Shorelines logo —
+circular globe emblem with sand-beige top, curved
+turquoise waves, dark teal cross at bottom-right.
+The text "SAFER SHORELINES" — S-A-F-E-R has exactly
+five letters, the F appears between A and E.
+NEVER render as "SAER".
+
+[SCENE]
+
+Golden hour, alpine lake bokeh, cinematic.</pre>
+        <div class="params">aspect 4:5 · style: 3D · upload Logo-PNG als Reference</div>
+      </div>
+      <div class="lock-card">
+        <h3>DALL-E 3 / GPT-Image <span class="badge">Komplexe Szenen</span></h3>
+<pre>Create a high-quality 3D animated film frame in the
+visual style of Disney's Moana and Pixar's Luca.
+
+The subject is "Safety" — a 21-year-old athletic
+woman with a swimmer's build. She has long wavy
+warm golden-blonde hair with a perfectly symmetrical
+center part falling to mid-back, large almond-shaped
+aquamarine blue-green eyes, a heart-shaped face,
+warm mediterranean tan, and a gentle closed-mouth
+friendly smile.
+
+She wears a full-body matte neoprene wetsuit with a
+bright turquoise chest panel and dark teal sleeves
+and sides. Centered on the chest is the Safer
+Shorelines logo: a circular emblem with a sandy beach
+on top, organic curved teal waves below, and a dark
+teal medical cross at the bottom-right edge of the
+circle (extending slightly past the border). The
+wordmark "SAFER SHORELINES" (five letters: S-A-F-E-R)
+sits to the right of the emblem in bold sans-serif.
+
+[SCENE]
+
+Golden hour, cinematic composition, no photorealism,
+no comic outlines.</pre>
+        <div class="params">size 1792×1024 · style natural · Logo-PNG referenzieren falls möglich</div>
+      </div>
+      <div class="lock-card">
+        <h3>Genspark nano-banana-pro <span class="badge">Logo-Compositing</span></h3>
+<pre>Input 1: existing Safety image (character + scene).
+Input 2: Safer Shorelines Logo PNG (transparent).
+
+Take image 1 (Safety). Place image 2 (the logo)
+flat onto her chest, centered on the turquoise
+wetsuit panel. Matte textile print look. No gloss,
+no shadow distortion, no 3D bevel.
+
+Keep face, hair, pose, background and lighting
+100% identical. Output: same resolution, PNG.</pre>
+        <div class="params">Use case: Logo nachträglich korrekt auf 200 bestehende Bilder bringen — 1 Call pro Bild.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">10</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 11 — PROMPT ANATOMIE                   -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Anatomie des Prompts</div>
+  <div class="anatomy">
+    <h2>Anatomie des perfekten Prompts.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:6mm">Jeder Safety-Prompt besteht aus fünf festen Blöcken. Drei sind <strong>HARD LOCK</strong> (nie ändern), zwei werden pro Szene <strong>ausgetauscht</strong>.</p>
+    <div class="anatomy-stack">
+      <div class="anatomy-row">
+        <div class="anatomy-label">STIL</div>
+        <div class="anatomy-value">Stylized 3D feature-film animation, Disney Moana / Pixar Luca / Encanto quality, NOT photorealistic, NOT cartoon …</div>
+        <div class="anatomy-hint"><strong>HARD LOCK</strong> — wird in jedem Prompt mit identischem Wortlaut verwendet.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-label">CHARAKTER</div>
+        <div class="anatomy-value">21-year-old athletic Safety, swimmer's build, oval heart-shaped face, aquamarine eyes (#45B5AA), warm blonde center-part hair (#E8C872), closed-mouth smile, mediterranean tan …</div>
+        <div class="anatomy-hint"><strong>HARD LOCK</strong> — komplette Visual-DNA aus Seite 05.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-label">OUTFIT &amp; LOGO</div>
+        <div class="anatomy-value">Matte neoprene wetsuit — turquoise chest (#40E0D0), dark teal sleeves (#008080). Centered emblem with cross bottom-right. Wordmark SAFER SHORELINES (S-A-F-E-R = 5 letters) …</div>
+        <div class="anatomy-hint"><strong>HARD LOCK</strong> — siehe Seiten 06 &amp; 07.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-label flex">AKTION &amp; SZENE</div>
+        <div class="anatomy-value" style="background:#E8F2F1;border-color:var(--teal-light)">[SCENE-Platzhalter] z. B. „Safety paddling a SUP board on a mirror-still alpine lake at sunrise"</div>
+        <div class="anatomy-hint"><strong>HIER AUSTAUSCHEN</strong> — Snippet aus Sport-Bibliothek (S. 12–14) kopieren.</div>
+      </div>
+      <div class="anatomy-row">
+        <div class="anatomy-label flex">UMGEBUNG &amp; LICHT</div>
+        <div class="anatomy-value" style="background:#E8F2F1;border-color:var(--teal-light)">z. B. „Lake Wolfgangsee, golden hour, pebble shore, Austrian Alps in the background"</div>
+        <div class="anatomy-hint"><strong>HIER AUSTAUSCHEN</strong> — Default: Wolfgangsee, Golden Hour.</div>
+      </div>
+    </div>
+    <p style="margin-top:8mm;font-size:9.5pt;color:#444"><strong>Negativer Prompt (immer mitgeben):</strong> photorealistic, real human, cartoon outlines, anime, glossy wetsuit, latex, braids, ponytail, side part, open mouth, teeth, sexy pose, model pose, deformed hands, palm trees, tropical beach, SAER, missing F, text errors, watermark.</p>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">11</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 12 — SPORT PROMPTS 01–06               -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Sport-Bibliothek · 01–06</div>
+  <div class="sports">
+    <h2 style="font-size:22pt;margin-bottom:3mm">Sport-Prompts <span style="color:var(--teal-light);font-weight:400">· Schwimmen → Windsurfen</span></h2>
+    <div class="sports-grid">
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">01</span><img src="assets/01_schwimmen_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Schwimmen · <small style="color:#888">Swimming</small></h4>
+          <div class="snippet">Safety doing front crawl in a crystal-clear alpine lake at golden hour, smooth water surface, mountain reflection, relaxed rhythmic stroke, head turning for breath, droplets arcing off the arm.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">02</span><img src="assets/02_freediving_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Freediving · <small style="color:#888">Apnoe</small></h4>
+          <div class="snippet">Safety freediving in deep blue ocean, graceful descent along a line, one hand on line, calm focused expression, streamlined body, light rays from above, long hair flowing upward.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">03</span><img src="assets/13_tauchengerat_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Gerätetauchen · <small style="color:#888">Scuba</small></h4>
+          <div class="snippet">Safety scuba diving near a shallow reef, full tank and regulator, neutral buoyancy mid-water, looking at a school of fish, fins kicking gently, sun rays from the surface.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">04</span><img src="assets/03_schnorcheln_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Schnorcheln · <small style="color:#888">Snorkeling</small></h4>
+          <div class="snippet">Safety snorkeling at the surface of a turquoise lagoon, mask and snorkel in place, floating face-down observing coral below, fins gently moving, warm filtered sunlight, tropical fish.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">05</span><img src="assets/05_kitesurfen_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Surfen · <small style="color:#888">Surfing</small></h4>
+          <div class="snippet">Safety surfing a clean turquoise wave, bottom-turn position, spray from the inside rail, weight on back foot, determined focused expression, tropical coast in the background, golden hour.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">06</span><img src="assets/06_windsurfen_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Windsurfen · <small style="color:#888">Windsurfing</small></h4>
+          <div class="snippet">Safety windsurfing at full planing speed across a turquoise lake, leaning back into the harness, sail catching golden light, spray trailing the board, alpine mountain backdrop.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sport-hint">
+      <strong>Mehr Sportarten und Bilder kommen laufend dazu.</strong> Auch deine eigenen sind willkommen — schick uns deine Safety-Bilder an
+      <a href="mailto:dieter.heinz@safershorelines.com">dieter.heinz@safershorelines.com</a> · wir prüfen, geben frei und ergänzen sie in der nächsten Guide-Version.
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0 · ersetze [SCENE] im Master Lock</div>
+  <div class="page-number">12</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 13 — SPORT PROMPTS 07–12               -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Sport-Bibliothek · 07–12</div>
+  <div class="sports">
+    <h2 style="font-size:22pt;margin-bottom:3mm">Sport-Prompts <span style="color:var(--teal-light);font-weight:400">· Kitesurfen → Kajakfahren</span></h2>
+    <div class="sports-grid">
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">07</span><img src="assets/05_kitesurfen_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Kitesurfen · <small style="color:#888">Kitesurfing</small></h4>
+          <div class="snippet">Safety kitesurfing across shallow turquoise water, kite at 11 o'clock in blue sky, board trailing spray, relaxed athletic stance, tropical coastline, late afternoon light.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">08</span><img src="assets/21_sup_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Stand-Up Paddling · <small style="color:#888">SUP</small></h4>
+          <div class="snippet">Safety standing on a SUP board on a mirror-still alpine lake at sunrise, long paddle in motion, mountain reflection in the water, morning mist on the surface.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">09</span><img src="assets/03_Wakeboarden_Cable_Park.png"></div>
+        <div class="sport-card-body">
+          <h4>Wakeboarden · <small style="color:#888">Wakeboarding</small></h4>
+          <div class="snippet">Safety wakeboarding behind a boat on a calm lake, carving a turn with spray arc behind her, bent knees, focused expression, alpine scenery.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">10</span><img src="assets/01_Wasserski_Klassisch.png"></div>
+        <div class="sport-card-body">
+          <h4>Wasserski · <small style="color:#888">Water Skiing</small></h4>
+          <div class="snippet">Safety water skiing on a smooth turquoise lake, slalom cut sending up a spray wall, arms extended to the tow handle, athletic forward lean, alpine mountain silhouette.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">11</span><img src="assets/08_sportsegeln_B_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Segeln · <small style="color:#888">Sailing</small></h4>
+          <div class="snippet">Safety sailing a small dinghy at the helm, one hand on the tiller, mainsheet in the other, wind filling the sail, looking ahead with confidence, turquoise coastline, warm afternoon light.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">12</span><img src="assets/02_Kajakfahren_Seekajak_Kueste.png"></div>
+        <div class="sport-card-body">
+          <h4>Kajakfahren · <small style="color:#888">Kayaking</small></h4>
+          <div class="snippet">Safety sea kayaking on a clear alpine lake at dawn, paddle blade just entering the water, long gentle stroke, mountains reflecting in the still water, morning mist.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sport-hint">
+      <strong>Weitere Sportarten in der nächsten Auflage.</strong> Hast du Vorschläge oder eigene Safety-Aufnahmen? Schick sie an
+      <a href="mailto:dieter.heinz@safershorelines.com">dieter.heinz@safershorelines.com</a> — die besten kommen direkt in den nächsten Guide.
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0 · ersetze [SCENE] im Master Lock</div>
+  <div class="page-number">13</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 14 — SPORT PROMPTS 13–18               -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Sport-Bibliothek · 13–18</div>
+  <div class="sports">
+    <h2 style="font-size:22pt;margin-bottom:3mm">Sport-Prompts <span style="color:var(--teal-light);font-weight:400">· Rafting → Motorboot</span></h2>
+    <div class="sports-grid">
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">13</span><img src="assets/Rafting.jpeg"></div>
+        <div class="sport-card-body">
+          <h4>Rafting · <small style="color:#888">Whitewater</small></h4>
+          <div class="snippet">Safety in a whitewater raft negotiating a rapid, paddle dug into the foam, team members visible beside her, helmet and PFD, spray over the bow, focused teamwork.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">14</span><img src="assets/01_Rudern_Team.png"></div>
+        <div class="sport-card-body">
+          <h4>Rudern · <small style="color:#888">Rowing</small></h4>
+          <div class="snippet">Safety rowing a single scull at sunrise on a calm lake, perfect stroke at full extension, mountains in the background, focused breathing rhythm.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">15</span><img src="assets/20_aquafitness_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Aquafitness · <small style="color:#888">Water Aerobics</small></h4>
+          <div class="snippet">Safety leading an aquafitness session in a sunlit pool, calm encouraging expression, foam dumbbells in hand, participants visible in background, fresh morning light.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">16</span><img src="assets/24_canyoning_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Canyoning · <small style="color:#888">Canyoning</small></h4>
+          <div class="snippet">Safety canyoning in a clear mountain gorge, helmet and harness on, controlled descent into a turquoise pool, water spraying, focused alert expression.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">17</span><img src="assets/25_jetski_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Jetski · <small style="color:#888">PWC</small></h4>
+          <div class="snippet">Safety on a jetski on a turquoise sea, lanyard clipped to wrist, hands firmly on the bars, controlled cruising speed, spray fanning out behind, golden afternoon light.</div>
+        </div>
+      </div>
+      <div class="sport-card">
+        <div class="sport-img"><span class="num">18</span><img src="assets/27_motorboot_A_FINAL.png"></div>
+        <div class="sport-card-body">
+          <h4>Motorboot · <small style="color:#888">Boating</small></h4>
+          <div class="snippet">Safety at the helm of a small motorboat moving slowly near shore, kill-switch lanyard around her wrist, calm focused alert expression, minimal clean wake.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sport-hint">
+      <strong>Volle Mediathek mit allen 29 Wassersportarten:</strong>
+      <a href="https://dl.safershorelines.com/safety-mediathek">dl.safershorelines.com/safety-mediathek</a> · Du hast bessere Aufnahmen? Wir freuen uns auf deine Einsendungen.
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0 · ersetze [SCENE] im Master Lock</div>
+  <div class="page-number">14</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 15 — 10 RULES                          -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Einsatz-Manifest</div>
+  <div class="rules">
+    <h2>Die 10 universellen Wasser-Regeln.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:4mm">Safety steht für diese 10 Regeln. Jedes Bild, jede Kampagne, jeder Frame transportiert mindestens eine davon — explizit oder implizit. Quelle: <em>SS-Knowledge/02_Regeln_Content/10 Rules Safer Shorelines V3</em>.</p>
+    <div class="rules-grid">
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel1_wetter.png" alt="Regel 1"></div><h4>Wetter prüfen</h4><p>Radar checken, bei Sturmwarnung Wasser verlassen.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel2_partner.png" alt="Regel 2"></div><h4>Buddy-System</h4><p>Nie alleine, Könnensstufen absprechen.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel3_gesetz.png" alt="Regel 3"></div><h4>Regeln kennen</h4><p>Lokale Gesetze &amp; Schutzzonen vorab klären.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel4_notfall.png" alt="Regel 4"></div><h4>Notfall handeln</h4><p>Ruhig reagieren, Rettungsmittel kennen.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel5_einstieg.png" alt="Regel 5"></div><h4>Ein- &amp; Ausstieg</h4><p>Rückweg im Voraus planen (Rutschgefahr).</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel6_grenzen.png" alt="Regel 6"></div><h4>Grenzen kennen</h4><p>Selbstüberschätzung vermeiden, Kältezeichen achten.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel7_ausruestung.png" alt="Regel 7"></div><h4>Ausrüstung</h4><p>Passende Auftriebsmittel (PFD, Leash) prüfen.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel8_abstand.png" alt="Regel 8"></div><h4>Abstand halten</h4><p>50m zu markierten Badezonen, Diver-Down respektieren.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel9_slow.png" alt="Regel 9"></div><h4>Speed &amp; Sober</h4><p>10 km/h in Ufernähe, kein Alkohol am Steuer.</p></div>
+      <div class="rule-card"><div class="rule-icon"><img src="assets/icons/regel10_natur.png" alt="Regel 10"></div><h4>Natur schützen</h4><p>Schilfgürtel und Brutgebiete absolut meiden.</p></div>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">15</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 16 — QA CHECKLIST                      -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">QA-Checkliste</div>
+  <div class="qa-page">
+    <h2>QA-Checkliste je generiertem Frame.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:2mm">Jeder generierte Frame durchläuft diese 16 Checks. Verstößt ein Frame gegen mehr als einen Punkt → verwerfen oder per Inpainting / nano-banana korrigieren.</p>
+    <div class="qa-grid">
+      <div class="qa-col">
+        <h3>Charakter-DNA</h3>
+        <ul class="qa-list">
+          <li><strong>Augen aquamarin</strong> #45B5AA, mandelförmig, warm</li>
+          <li><strong>Haar warm-blond</strong> #E8C872, wellig, <strong>Mittelscheitel</strong></li>
+          <li><strong>Mund geschlossen</strong>, sanftes Lächeln, keine Zähne</li>
+          <li>Gesicht <strong>herzförmig</strong>, hohe Wangenknochen</li>
+          <li>Teint mediterran-gebräunt, kein Make-up-Look</li>
+          <li>Athletischer Schwimmer-Körperbau, 21 Jahre</li>
+          <li>Stil: <strong>Pixar Moana / Luca</strong>, keine Comic-Outlines</li>
+          <li>Keine Fotorealismus-Anmutung, keine Hautporen</li>
+        </ul>
+      </div>
+      <div class="qa-col">
+        <h3>Outfit, Logo &amp; Szene</h3>
+        <ul class="qa-list">
+          <li><strong>Wetsuit matt</strong>, türkis-teal, hoher Kragen</li>
+          <li>Brustpanel <strong>#40E0D0</strong>, Ärmel <strong>#008080</strong></li>
+          <li>Kein Glanz, kein Latex, kein Plastik-Look</li>
+          <li>Logo: <strong>S-A-F-E-R</strong> (5 Buchstaben, F sichtbar)</li>
+          <li>Kreuz <strong>rechts unten</strong>, ragt über Kreisrand</li>
+          <li>Wellen <strong>organisch</strong> geschwungen, keine Streifen</li>
+          <li>Hintergrund: Default <strong>Wolfgangsee / Alpensee</strong> (kein Sand, keine Palmen)</li>
+          <li>Licht: Golden Hour oder szenen-passend, kein dramatisches Drama</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:6mm;font-size:9pt;color:#555;background:var(--teal-bg);padding:3mm 5mm;border-radius:2mm;border-left:3px solid var(--teal-dark)"><strong>Schnell-Fix für Logo-Fehler:</strong> Bild + offizielles Logo-PNG in Genspark nano-banana-pro mit dem Master-Compositing-Prompt aus Seite 10 → ein Call ersetzt manuelles Klicken in Affinity / Photoshop.</p>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">16</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 17 — WORKFLOW                          -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">End-to-End Workflow</div>
+  <div class="workflow">
+    <h2>Von Idee zu fertigem Asset.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:2mm">Fünf Schritte vom leeren Tab bis zum freigegebenen Bild oder Video. Jeder Schritt referenziert eine Seite in diesem Guide.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="num">1</div>
+        <h4>Master Lock kopieren</h4>
+        <p>Aus Seite 10 das Tool-passende Lock-Template kopieren. Hard-Lock-DNA ist bereits enthalten.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">2</div>
+        <h4>[SCENE] einsetzen</h4>
+        <p>Sport-Snippet aus den Seiten 12–14 in den Lock einfügen. Umgebung anpassen falls nicht Default.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">3</div>
+        <h4>Generieren</h4>
+        <p>Tool wählen laut Matrix Seite 09. Logo-PNG als Reference hochladen. 3–5 Varianten erzeugen.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">4</div>
+        <h4>QA prüfen</h4>
+        <p>Frame gegen Checkliste Seite 16 abgleichen. Logo-Fehler? → nano-banana Composite-Prompt aus Seite 10.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">5</div>
+        <h4>Einsatz</h4>
+        <p>Freigegebener Frame: für I2V mit Kling v3 / Veo 3 oder direkt für Print / Social.</p>
+      </div>
+    </div>
+    <p style="margin-top:10mm;font-size:10pt;line-height:1.6"><strong>Zeitaufwand realistisch:</strong> erfahrener Designer 6–10 Minuten pro Final-Bild · Erstbenutzer 15–25 Minuten · Batch-Produktion (z. B. alle 29 Sportarten) ca. 4 Stunden für die komplette Bibliothek mit 3 Varianten je Sport.</p>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">17</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 18 — MEDIATHEK                         -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="section-bar">Mediathek — freigegebene Bilder</div>
+  <div class="gallery">
+    <h2 style="font-size:22pt;margin-bottom:2mm">Mediathek.</h2>
+    <p style="font-size:10pt;color:#666;max-width:200mm;margin-bottom:4mm">Eine kuratierte Auswahl aus dem freigegebenen Pool <code>Safety_Samplepicture_final/</code>. Diese Bilder sind QA-bestanden und können direkt für Print, Web, Social oder als Character-Reference (<code>--cref</code>) in weiteren Generierungen verwendet werden.</p>
+    <div class="gallery-grid">
+      <div class="gallery-tile"><img src="assets/01_schwimmen_A_FINAL.png"><div class="cap">Schwimmen</div></div>
+      <div class="gallery-tile"><img src="assets/02_freediving_A_FINAL.png"><div class="cap">Freediving</div></div>
+      <div class="gallery-tile"><img src="assets/03_schnorcheln_B_FINAL.png"><div class="cap">Schnorcheln</div></div>
+      <div class="gallery-tile"><img src="assets/04_tauchen_A_FINAL.png"><div class="cap">Tauchen</div></div>
+      <div class="gallery-tile"><img src="assets/05_kitesurfen_B_FINAL.png"><div class="cap">Kitesurfen</div></div>
+      <div class="gallery-tile"><img src="assets/06_windsurfen_B_FINAL.png"><div class="cap">Windsurfen</div></div>
+      <div class="gallery-tile"><img src="assets/08_sportsegeln_B_FINAL.png"><div class="cap">Segeln</div></div>
+      <div class="gallery-tile"><img src="assets/13_tauchengerat_B_FINAL.png"><div class="cap">Gerätetauchen</div></div>
+      <div class="gallery-tile"><img src="assets/20_aquafitness_A_FINAL.png"><div class="cap">Aquafitness</div></div>
+      <div class="gallery-tile"><img src="assets/21_sup_A_FINAL.png"><div class="cap">SUP</div></div>
+      <div class="gallery-tile"><img src="assets/24_canyoning_A_FINAL.png"><div class="cap">Canyoning</div></div>
+      <div class="gallery-tile"><img src="assets/25_jetski_A_FINAL.png"><div class="cap">Jetski</div></div>
+      <div class="gallery-tile"><img src="assets/27_motorboot_A_FINAL.png"><div class="cap">Motorboot</div></div>
+      <div class="gallery-tile"><img src="assets/28_parasailing_A_FINAL.png"><div class="cap">Parasailing</div></div>
+      <div class="gallery-tile"><img src="assets/Safety_Hero1.png"><div class="cap">Hero Portrait</div></div>
+    </div>
+    <div class="gallery-foot">
+      <strong>Vollständiger Pool:</strong> <a href="assets/">Safety_Samplepicture_final/</a> — ca. 130 freigegebene Bilder.<br>
+      <strong>Logo-Downloads:</strong> <a href="assets/Safer Shorelines Logo only no backgr-1.png">Vollogo PNG</a> · <a href="assets/Logo_Kugel_transparent.png">Kugel-Emblem PNG</a><br>
+      <strong>Master-Quellen:</strong> <a href="mailto:dieter.heinz@safershorelines.com?subject=Anfrage:%20Character%20SPEC%20V3.1">Character SPEC V3.1</a> · <a href="mailto:dieter.heinz@safershorelines.com?subject=Anfrage:%20Storyboard%20V3.1">10-Rules Storyboard V3.1</a>
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number">18</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 19 — SYNTHESE                          -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe" style="background:linear-gradient(90deg,#A4D1CE 0%, #A4D1CE 20%,#67B2AE 20%,#67B2AE 40%,#3E8F8C 40%,#3E8F8C 60%,#0E736F 60%,#0E736F 80%,#08403A 80%,#08403A 100%)"></div>
+  <div class="synthese">
+    <div class="section-bar" style="color:var(--teal-lightest)">Synthese</div>
+    <h2>Warum technische Disziplin Leben rettet.</h2>
+    <div class="synthese-grid">
+      <div class="synthese-card">
+        <h3>1 · Der Input</h3>
+        <p><strong>Technische Kontrolle.</strong> Strikte Prompt-Disziplin, exakte Farb-Hex-Codes, korrekte Typografie. <em>„SAFER"</em> nie als <em>„SAER"</em>. Hard Locks sind nicht verhandelbar — sie sind die Voraussetzung dafür, dass Wiedererkennung überhaupt entstehen kann.</p>
+      </div>
+      <div class="synthese-card">
+        <h3>2 · Der Multiplikator</h3>
+        <p><strong>Der Avatar.</strong> Ein visuell perfekt konsistenter Charakter schafft Wiedererkennung und Vertrauen über alle Kanäle — Social, Print, Web, Video, Schulungsraum. Safety wird zur sympathischen Person, an die sich Wassersportler erinnern.</p>
+      </div>
+      <div class="synthese-card">
+        <h3>3 · Der Output</h3>
+        <p><strong>Verhaltensänderung.</strong> Wassersportler akzeptieren Regeln (10 km/h Limit, Rettungswesten, Naturschutzzonen, Buddy-System), weil sie von einer <em>sympathischen Buddy-Figur</em> kommuniziert werden — nicht von einer abstrakten Behörde.</p>
+      </div>
+    </div>
+    <div class="synthese-final">
+      Eine perfekt generierte digitale Botschafterin skaliert unendlich —<br>und macht Sicherheit für alle möglich.
+    </div>
+  </div>
+  <div class="page-footer" style="color:rgba(255,255,255,0.6)">Safer Shorelines · Character Guide v2.0</div>
+  <div class="page-number" style="color:var(--teal-lightest)">19</div>
+</section>
+
+<!-- ============================================ -->
+<!-- PAGE 20 — BACK COVER                        -->
+<!-- ============================================ -->
+<section class="page">
+  <div class="brand-stripe"></div>
+  <div class="back">
+    <div class="back-left">
+      <div class="section-bar" style="position:static;margin-bottom:6mm">Kontakt &amp; Downloads</div>
+      <h2>Kostenlos für eure Sicherheitskommunikation.</h2>
+      <p>Egal ob Kommune, Tauchschule, Surfschool oder Hotel — nutzt diesen Guide, generiert Safety und macht gemeinsam mit uns das Wasser ein Stück sicherer.</p>
+      <div class="back-links">
+        <a href="https://www.safershorelines.com">www.safershorelines.com</a>
+        <a href="https://dl.safershorelines.com">dl.safershorelines.com — Asset-Downloads</a>
+        <a href="mailto:dieter.heinz@safershorelines.com">dieter.heinz@safershorelines.com</a>
+      </div>
+      <div class="back-tags">
+        #justaddsafety &nbsp; #staysafer &nbsp; #safershorelines
+      </div>
+      <p style="margin-top:10mm;font-size:9pt;color:#777;max-width:120mm">
+        <strong>Dokument-Status:</strong> v2.0 · 2026-05-20 · FINAL &amp; VERBINDLICH<br>
+        <strong>Ersetzt:</strong> Safety_Character_Guide_v1.0 (April 2026), AI_Character_Guide_220426<br>
+        <strong>Verbindliche Quellen:</strong> Character SPEC V3.1 · Storyboard V3.1 · Prompts_Library 2026.04
+      </p>
+    </div>
+    <div class="back-right">
+      <img src="assets/Just add safety01.png" alt="Just Add Safety — SUP">
+    </div>
+  </div>
+  <div class="page-footer">Safer Shorelines · Just Add Safety — The Character &amp; Prompt Guide</div>
+  <div class="page-number">20</div>
+</section>
+
+</body>
+</html>
